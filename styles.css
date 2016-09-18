@@ -1,79 +1,97 @@
-.frame{
-  box-shadow: 2px 7px 7px 3px rgba(0,0,0,0.75);
-  background-image: url("https://s10.postimg.org/bat01vi2x/004_polished_wood.png");
-  padding: 40px;
-  margin: auto;
-  margin-top: 50px;
-  width: 352px;
-  height: 352px;
-  border-radius: 10px;
-  text-align:center;
-  position: relative;
-
+.frame {
+    box-shadow: 2px 7px 7px 3px rgba(0, 0, 0, 0.75);
+    background-image: url("https://s10.postimg.org/bat01vi2x/004_polished_wood.png");
+    padding: 40px;
+    margin: auto;
+    margin-top: 50px;
+    width: 352px;
+    height: 352px;
+    border-radius: 10px;
+    text-align: center;
+    position: relative;
 }
 
 .board {
-  box-shadow: inset -2px -4px 140px -27px rgba(0,0,0,1);
-  background-color: #015902;
-  width: 312px;
-  margin: auto; 
-  text-align:center;
-  line-height: 0px;
-  padding: 20px;
-  font-size: 0;
-  border-radius: 10px;
-  position: absolute;
+    box-shadow: inset -2px -4px 140px -27px rgba(0, 0, 0, 1);
+    background-color: #015902;
+    width: 312px;
+    margin: auto;
+    text-align: center;
+    line-height: 0;
+    padding: 20px;
+    font-size: 0;
+    border-radius: 10px;
+    position: absolute;
 }
-.cell {
 
-  vertical-align: middle;
-  font-size: 100px;
-  height: 100px;
-  line-height: 100px;
-  margin: 0;
-  width: 100px;
-  display: inline-block;
-  border: 3px solid white;
-  
+.cell {
+    border: 3px solid white;
+    vertical-align: middle;
+    font-size: 100px;
+    height: 100px;
+    line-height: 100px;
+    margin: 0;
+    width: 100px;
+    display: inline-block;
 }
-.cell:hover{
-  cursor: pointer;
+
+.cell:hover {
+    cursor: pointer;
 }
-.left{
-  border-left:none;
+
+.left {
+    border-left: none;
 }
-.right{
-  border-right:none;
+
+.right {
+    border-right: none;
 }
-.top{
-  border-top:none;
+
+.top {
+    border-top: none;
 }
-.bottom{
-  border-bottom:none;
+
+.bottom {
+    border-bottom: none;
 }
-.menu{
-  color: white;
-  position: absolute;
-  width: 352px;
-  height: 352px;
-  line-height: 40px;
-  font-size: 40px;
-  text-align:center;
-  background: rgba(0,0,0,0.7);
-  border-radius: 10px;
-  z-index: 55;
-  
-  
+
+.menu {
+    color: white;
+    display: block;
+    position: absolute;
+    width: 352px;
+    height: 352px;
+    line-height: 40px;
+    font-size: 40px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    z-index: 55;
 }
-#one, #two{
-  padding: 5px;
-  border-radius: 10px;
-  border: 5px solid rgba(0, 0, 0, 0);
-  display:inline-block;
-  width:42%;
-  margin-top: 50px;
+.menuXorO {
+    color: white;
+    display: none;
+    position: absolute;
+    width: 352px;
+    height: 352px;
+    line-height: 40px;
+    font-size: 40px;
+    text-align: center;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 10px;
+    z-index: 56;
 }
-#one:hover, #two:hover{
-  border: 5px solid white;
-  border-radius: 10px;
+
+.choose {
+    padding: 5px;
+    border-radius: 10px;
+    border: 5px solid rgba(0, 0, 0, 0);
+    display: inline-block;
+    width: 42%;
+    margin-top: 50px;
+}
+
+.choose:hover {
+    border: 5px solid white;
+    border-radius: 10px;
 }
