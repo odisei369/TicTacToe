@@ -55,7 +55,7 @@
     border-bottom: none;
 }
 
-.menu {
+.menuAll {
     color: white;
     display: block;
     position: absolute;
@@ -68,19 +68,11 @@
     border-radius: 10px;
     z-index: 55;
 }
-.menuXorO {
-    color: white;
-    display: none;
-    position: absolute;
-    width: 352px;
-    height: 352px;
-    line-height: 40px;
-    font-size: 40px;
-    text-align: center;
-    background: rgba(0, 0, 0, 0.7);
-    border-radius: 10px;
-    z-index: 56;
+.menuXorO, .endOfGame {
+    display: none;  
 }
+
+
 
 .choose {
     padding: 5px;

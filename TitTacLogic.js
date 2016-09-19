@@ -3,12 +3,12 @@ $(document).ready(function() {
 });
 var game = {
     board: ['E', 'E', 'E',
-            'E', 'E', 'E',
-            'E', 'E', 'E'
+        'E', 'E', 'E',
+        'E', 'E', 'E'
     ],
     firstPlayerSymbol: '',
     aiSymbol: '',
-    currentTurn : "X",
+    currentTurn: "X",
     winCombinations: [
         [0, 1, 2],
         [3, 4, 5],
@@ -20,11 +20,8 @@ var game = {
         [2, 4, 6]
     ],
     freeCells: 9,
-    iteration: function(symbol, cellId) {
-        this.board[cellId] = symbol;
-
-        $("#" + cellId).html(symbol);
-        this.freeCells--;
+    //if realGame is false, game will not end, so AI can expeiment
+    checkWin: function(realGame) {
         for (var a = 0; a < this.winCombinations.length; a++) {
             var buffer = "";
             var counter = 0;
@@ -37,72 +34,109 @@ var game = {
                         break;
                     } else {
                         counter++;
-                        if (counter == 3) { console.log(buffer + " win");
-                            return buffer + " win"; }
+                        if (counter == 3) {
+
+                            console.log(buffer + " win");
+                            if (realGame) { message(buffer + " win"); }
+
+                            return buffer + " win";
+                        }
                     }
                 }
             }
         }
-        if (!this.freeCells) { console.log("draw");
-            return "draw"; }
-        if (this.currentTurn == "X"){
-          this.currentTurn = "O";
+        if (!this.freeCells) {
+            console.log("draw");
+            if (realGame){message("draw");}
+            return "draw";
+        }
+    },
+
+    iteration: function(symbol, cellId) {
+        this.board[cellId] = symbol;
+
+        $("#" + cellId).html(symbol);
+        this.freeCells--;
+        game.checkWin(true);
+
+        
+        if (this.currentTurn == "X") {
+            this.currentTurn = "O";
         } else {
-          this.currentTurn = "X";
+            this.currentTurn = "X";
         }
     }
-
 };
 
-// function draw(symbol, cellId) {
-//     $("#" + cellId).html(symbol);
-// }
 
-// function initialize2players() {
-//     game.board = ['E', 'E', 'E',
-//                   'E', 'E', 'E',
-//                   'E', 'E', 'E'
-//     ];
-//     game.freeCells = 9;
-//     game.firstPlayerSymbol = "X";
-//     game.currentTurn = 'X';
-// }
+var enemy = {
+    computerBoard: ['E', 'E', 'E',
+        'E', 'E', 'E',
+        'E', 'E', 'E'
+    ],
+    checkWin : function(board){
+        var posibilities = [];
+        for (var a = 0; a < board.length; a++){
+            if (board[a] == "E"){
+                
+            }
+        }
+    },
+    };
+    // function draw(symbol, cellId) {
+    //     $("#" + cellId).html(symbol);
+    // }
+
+function initializeGame() {
+    $(".endOfGame").fadeOut(200);
+    $(".cell").html("");
+    game.board = ['E', 'E', 'E',
+        'E', 'E', 'E',
+        'E', 'E', 'E'
+    ];
+    game.freeCells = 9;
+    game.currentTurn = 'X';
+    $(".menu").fadeIn(200);
+}
+
+function message(mes) {
+    $("#message").html(mes);
+    $(".endOfGame").fadeIn(200);
+}
 
 
 
 
 function load() {
+    $("#restart").on("click", initializeGame);
     $(".cell").on("click", function() {
-        if (!$(this).html()){
-          game.iteration(game.currentTurn, $(this).attr('id'));
-        }//TODO add checking for if cell is empty
+        if (!$(this).html()) {
+            game.iteration(game.currentTurn, $(this).attr('id'));
+        }
         //add checking for X or O
-        
-        console.log("1");
-
     });
 
     $("#one, #two").click(function() {
-      var mode = '';
-            if ($(this).attr('id') == "one"){
-              mode = 'one';
-            }else {
-              mode = 'two';
-            }
-            $(".menu").fadeOut(200);
-            $(".menuXorO").fadeIn(200);
-            $("#X, #O").click(function(){
-              game.firstPlayerSymbol = $(this).attr('id');
-              if (mode == 'two'){
-                if (game.firstPlayerSymbol == 'O'){
-                  game.aiSymbol = 'X';
-                  //TODO do the AI thing
+        var mode = '';
+        if ($(this).attr('id') == "one") {
+            mode = 'one';
+        } else {
+            mode = 'two';
+        }
+        $(".menu").fadeOut(200);
+        $(".menuXorO").fadeIn(200);
+        $("#X, #O").click(function() {
+            game.firstPlayerSymbol = $(this).attr('id');
+            if (mode == 'one') {
+                if (game.firstPlayerSymbol == 'O') {
+                    game.aiSymbol = 'X';
+                    //TODO do the AI thing
                 } else {
-                  game.aiSymbol = 'O';
+                    game.aiSymbol = 'O';
                 }
-              }
-            $(".menuXorO").fadeOut(200);  
-            });
-        
+            }
+            $(".menuXorO").fadeOut(200);
+        });
+
     });
 }
