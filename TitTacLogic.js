@@ -60,8 +60,12 @@ var game = {
         game.checkWin(true); 
         if (this.currentTurn == "X") {
             this.currentTurn = "O";
+            $("#playerO").animate({top: '-35px'});
+            $("#playerX").animate({top: '0px'});
         } else {
             this.currentTurn = "X";
+            $("#playerX").animate({top: '-35px'});
+            $("#playerO").animate({top: '0px'});
         }
         if (this.freeCells > 0 && this.aiSymbol){enemy.checkTurn();}
     }
@@ -115,7 +119,7 @@ function message(mes) {
 
 
 function load() {
-    $("#restart").on("click", initializeGame);
+    $("#restart, #restartBut").on("click", initializeGame);
     $(".cell").on("click", function() {
         if (!$(this).html()) {
             game.iteration(game.currentTurn, $(this).attr('id'));
@@ -137,13 +141,26 @@ function load() {
             if (mode == 'one') {
                 if (game.firstPlayerSymbol == 'O') {
                     game.aiSymbol = 'X';
-                    //TODO do the AI thing
+                    $("#playerX").html('Computer-X');
+                    $("#playerO").html('Player-O');//TODO do the AI thing
                 } else {
                     game.aiSymbol = 'O';
+                    $("#playerX").html('Player-X');
+                    $("#playerO").html('Computer-O');
                 }
                 enemy.checkTurn();
+            } else{
+                if (game.firstPlayerSymbol == "X"){
+                    $("#playerX").html('Player1-X');
+                    $("#playerO").html('Player2-O');
+                } else{
+                    $("#playerX").html('Player2-X');
+                    $("#playerO").html('Player1-O');
+                }
             }
+            $("#restartBut").animate({top: '-35px'});
             $(".menuXorO").fadeOut(200);
+
         });
 
     });
