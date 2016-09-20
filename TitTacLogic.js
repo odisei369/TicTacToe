@@ -53,33 +53,40 @@ var game = {
     },
 
     iteration: function(symbol, cellId) {
+        console.log("iteration");
         this.board[cellId] = symbol;
-
         $("#" + cellId).html(symbol);
         this.freeCells--;
-        game.checkWin(true);
-
-        
+        game.checkWin(true); 
         if (this.currentTurn == "X") {
             this.currentTurn = "O";
         } else {
             this.currentTurn = "X";
         }
+        if (this.freeCells > 0 && this.aiSymbol){enemy.checkTurn();}
     }
 };
 
 
 var enemy = {
-    computerBoard: ['E', 'E', 'E',
-        'E', 'E', 'E',
-        'E', 'E', 'E'
-    ],
-    checkWin : function(board){
-        var posibilities = [];
-        for (var a = 0; a < board.length; a++){
-            if (board[a] == "E"){
-                
+    randomStep : function(){
+        console.log("random step");
+        var buffer = true;
+        var cell;
+        do {
+            var random = Math.round(Math.random()*8);
+            console.log(random);
+            if (game.board[random] == "E"){
+                buffer = false;
+                cell = random;
             }
+        }while(buffer);
+        game.iteration(game.aiSymbol, cell);  
+    },
+    checkTurn : function(){
+        console.log("check turn");
+        if (game.currentTurn == game.aiSymbol){
+            enemy.randomStep();
         }
     },
     };
@@ -134,6 +141,7 @@ function load() {
                 } else {
                     game.aiSymbol = 'O';
                 }
+                enemy.checkTurn();
             }
             $(".menuXorO").fadeOut(200);
         });
