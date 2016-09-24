@@ -6,6 +6,7 @@ var game = {
         'E', 'E', 'E',
         'E', 'E', 'E'
     ],
+    gameEnd : false,
     firstPlayerSymbol: '',
     aiSymbol: '',
     currentTurn: "X",
@@ -35,10 +36,10 @@ var game = {
                     } else {
                         counter++;
                         if (counter == 3) {
-
+                            game.gameEnd = true;
                             console.log(buffer + " win");
                             if (realGame) { message(buffer + " win"); }
-
+                            hideLabels();
                             return buffer + " win";
                         }
                     }
@@ -46,7 +47,9 @@ var game = {
             }
         }
         if (!this.freeCells) {
+            game.gameEnd = true;
             console.log("draw");
+            hideLabels();
             if (realGame){message("draw");}
             return "draw";
         }
@@ -58,19 +61,25 @@ var game = {
         $("#" + cellId).html(symbol);
         this.freeCells--;
         game.checkWin(true); 
-        if (this.currentTurn == "X") {
+        if (this.currentTurn == "X" && !game.gameEnd) {
             this.currentTurn = "O";
             $("#playerO").animate({top: '-35px'});
             $("#playerX").animate({top: '0px'});
         } else {
-            this.currentTurn = "X";
-            $("#playerX").animate({top: '-35px'});
-            $("#playerO").animate({top: '0px'});
+            if (!game.gameEnd){
+                this.currentTurn = "X";
+                $("#playerX").animate({top: '-35px'});
+                $("#playerO").animate({top: '0px'});
+            }
         }
-        if (this.freeCells > 0 && this.aiSymbol){enemy.checkTurn();}
+        if (this.freeCells > 0 && this.aiSymbol && !game.gameEnd){enemy.checkTurn();}
     }
 };
-
+function hideLabels(){
+    $("#playerO").animate({top: '0px'});
+    $("#playerX").animate({top: '0px'});
+    $("#restartBut").animate({top: '0px'});
+}
 
 var enemy = {
     randomStep : function(){
@@ -85,7 +94,7 @@ var enemy = {
                 cell = random;
             }
         }while(buffer);
-        game.iteration(game.aiSymbol, cell);  
+        if (game.aiSymbol){game.iteration(game.aiSymbol, cell);}  
     },
     checkTurn : function(){
         console.log("check turn");
@@ -99,6 +108,8 @@ var enemy = {
     // }
 
 function initializeGame() {
+    hideLabels();
+    game.gameEnd = false;
     $(".endOfGame").fadeOut(200);
     $(".cell").html("");
     game.board = ['E', 'E', 'E',
@@ -139,17 +150,20 @@ function load() {
         $("#X, #O").click(function() {
             game.firstPlayerSymbol = $(this).attr('id');
             if (mode == 'one') {
+                mode = "";
                 if (game.firstPlayerSymbol == 'O') {
                     game.aiSymbol = 'X';
                     $("#playerX").html('Computer-X');
-                    $("#playerO").html('Player-O');//TODO do the AI thing
+                    $("#playerO").html('Player-O');
+                    enemy.checkTurn();
                 } else {
                     game.aiSymbol = 'O';
                     $("#playerX").html('Player-X');
                     $("#playerO").html('Computer-O');
                 }
-                enemy.checkTurn();
+                
             } else{
+                game.aiSymbol = "";
                 if (game.firstPlayerSymbol == "X"){
                     $("#playerX").html('Player1-X');
                     $("#playerO").html('Player2-O');
@@ -159,6 +173,7 @@ function load() {
                 }
             }
             $("#restartBut").animate({top: '-35px'});
+            if (game.aiSymbol != "X"){$("#playerX").animate({top: '-35px'});}
             $(".menuXorO").fadeOut(200);
 
         });
